@@ -6,6 +6,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
+
     defaultConfig {
         applicationId "com.example.android.architecture.blueprints.reactive"
         minSdkVersion rootProject.minSdkVersion
@@ -13,6 +14,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
     }
     buildTypes {
         release {

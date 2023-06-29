@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.ServiceLocator
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.TaskRepository
@@ -49,17 +50,17 @@ class TaskDetailFragmentTest {
 //
 //    }
 
-    @Test
-    fun activeTaskDetails_DisplayedInUi()  = runBlockingTest{
-        // GIVEN - Add active (incomplete) task to the DB
-        val activeTask = Task("Active Task", "AndroidX Rocks", false)
-        repository.saveTask(activeTask)
-
-        // WHEN - Details fragment launched to display task
-        val bundle = TaskDetailFragmentArgs(activeTask.id).toBundle()
-        launchFragmentInContainer<TaskDetailFragment>(bundle, R.style.AppTheme)
-
-    }
+//    @Test
+//    fun activeTaskDetails_DisplayedInUi()  = runBlockingTest{
+//        // GIVEN - Add active (incomplete) task to the DB
+//        val activeTask = Task("Active Task", "AndroidX Rocks", false)
+//        repository.saveTask(activeTask)
+//
+//        // WHEN - Details fragment launched to display task
+//        val bundle = TaskDetailFragmentArgs(activeTask.id).toBundle()
+//        launchFragmentInContainer<TaskDetailFragment>(bundle, R.style.AppTheme)
+//
+//    }
     @Test
     fun activeTaskDetails_DisplayedInUi() = runBlockingTest{
         // GIVEN - Add active (incomplete) task to the DB
