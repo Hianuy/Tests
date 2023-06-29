@@ -24,10 +24,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.android.architecture.blueprints.todoapp.EventObserver
 import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.TodoApplication
+import com.example.android.architecture.blueprints.todoapp.data.source.DefaultTasksRepository
+import com.example.android.architecture.blueprints.todoapp.data.source.TaskRepository
 import com.example.android.architecture.blueprints.todoapp.databinding.TaskdetailFragBinding
 import com.example.android.architecture.blueprints.todoapp.tasks.DELETE_RESULT_OK
 import com.example.android.architecture.blueprints.todoapp.util.setupRefreshLayout
@@ -42,8 +47,15 @@ class TaskDetailFragment : Fragment() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<TaskDetailViewModel>()
+//    private val viewModel by viewModels<TaskDetailViewModel>()
 
+
+//    private val viewModel by viewModels<TaskDetailViewModel> {
+//        TaskDetailViewModelFactory(DefaultTasksRepository.getRepository(requireActivity().application))
+//    }
+    private val viewModel by viewModels<TaskDetailViewModel> {
+        TaskDetailViewModelFactory((requireContext().applicationContext as TodoApplication).taskRepository)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupFab()
         view.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
@@ -102,5 +114,13 @@ class TaskDetailFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.taskdetail_fragment_menu, menu)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class TaskDetailViewModelFactory (
+        private val tasksRepository: TaskRepository
+    ) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>) =
+            (TaskDetailViewModel(tasksRepository) as T)
     }
 }

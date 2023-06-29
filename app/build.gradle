@@ -40,6 +40,7 @@ dependencies {
 
     // Architecture Components
     implementation "androidx.room:room-runtime:$roomVersion"
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
@@ -60,4 +61,31 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+
+
+    testImplementation "androidx.test:core-ktx:1.4.0"
+    testImplementation "org.robolectric:robolectric:4.7.3"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
+    androidTestImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
+    // Testing code should not be included in the main code.
+    // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
+
+//    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
+//    implementation "androidx.test:core:$androidXTestCoreVersion"
+
+    // Dependencies for Android instrumented unit tests
+//    androidTestImplementation "junit:junit:$junitVersion"
+//    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
+    // Testing code should not be included in the main code.
+    // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
+
+    androidTestImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
+    androidTestImplementation "androidx.test:core:$androidXTestCoreVersion"
+
 }

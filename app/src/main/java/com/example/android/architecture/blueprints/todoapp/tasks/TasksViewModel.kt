@@ -15,7 +15,6 @@
  */
 package com.example.android.architecture.blueprints.todoapp.tasks
 
-import android.app.Application
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
@@ -24,18 +23,18 @@ import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Result.Success
 import com.example.android.architecture.blueprints.todoapp.data.Task
-import com.example.android.architecture.blueprints.todoapp.data.source.DefaultTasksRepository
+import com.example.android.architecture.blueprints.todoapp.data.source.TaskRepository
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource
 import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the task list screen.
  */
-class TasksViewModel(application: Application) : AndroidViewModel(application) {
+class TasksViewModel(private val taskRepository: TaskRepository) : ViewModel() {
 
     // Note, for testing and architecture purposes, it's bad practice to construct the repository
     // here. We'll show you how to fix this during the codelab
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
+
 
     private val _forceUpdate = MutableLiveData<Boolean>(false)
 
@@ -43,11 +42,11 @@ class TasksViewModel(application: Application) : AndroidViewModel(application) {
         if (forceUpdate) {
             _dataLoading.value = true
             viewModelScope.launch {
-                tasksRepository.refreshTasks()
+                taskRepository.refreshTasks()
                 _dataLoading.value = false
             }
         }
-        tasksRepository.observeTasks().switchMap { filterTasks(it) }
+        taskRepository.observeTasks().switchMap { filterTasks(it) }
 
     }
 
@@ -142,17 +141,17 @@ class TasksViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearCompletedTasks() {
         viewModelScope.launch {
-            tasksRepository.clearCompletedTasks()
+            taskRepository.clearCompletedTasks()
             showSnackbarMessage(R.string.completed_tasks_cleared)
         }
     }
 
     fun completeTask(task: Task, completed: Boolean) = viewModelScope.launch {
         if (completed) {
-            tasksRepository.completeTask(task)
+            taskRepository.completeTask(task)
             showSnackbarMessage(R.string.task_marked_complete)
         } else {
-            tasksRepository.activateTask(task)
+            taskRepository.activateTask(task)
             showSnackbarMessage(R.string.task_marked_active)
         }
     }
